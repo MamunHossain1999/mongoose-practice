@@ -17,8 +17,8 @@ app.get("/", (req: Request, res: Response, next: NextFunction) => {
   //step 2 : schema
   // step 3: model
   // step 4: database query
-    res.send("Hello World!");
-    next();
+    // res.send("Hello World!");
+    // next();
 
   // creating an interface
   interface IUser {
@@ -33,7 +33,7 @@ app.get("/", (req: Request, res: Response, next: NextFunction) => {
     dataOfBirth?:string;
     gender:"male" | "female";
     email?: string;
-    contactNO: string;
+    contactNo: string;
     emergencyContactNo: string;
     pressentAddress: string;
     permanentAddress: string;
@@ -41,7 +41,7 @@ app.get("/", (req: Request, res: Response, next: NextFunction) => {
 
 //   creatin schema using interface
 const userSchema = new Schema<IUser>({
-    id: {type: String, require:true, unique:true},
+    id: {type: String, required:true, unique:true},
     role: {type:String, required:true},
     password: {type:String, required:true},
     name:{
@@ -52,31 +52,37 @@ const userSchema = new Schema<IUser>({
     dataOfBirth:{type:String},
     gender:{type:String, enum:['male', 'female']},
     email: {type: String},
-    contactNO: {type:String, required:true},
+    contactNo: {type:String, required:true},
     emergencyContactNo: {type:String, required:true},
     pressentAddress:{type:String, required:true},
     permanentAddress: {type:String, required:true}
 });
 // creat a model
 const User = model<IUser>('User', userSchema);
-const user = new User({
-    id:'123456',
-    role:"student",
-    password: '23533',
-    name:{
-        firstName:' Md',
-        middleName:'Mamun',
-        lastName:'Hossain',
-    },
-    dataOfBirth:'11/9/2002',
-    gender:'male',
-    email: 'md.mamun.hossain.bj@gmail.com',
-    contactNO: '01888494',
-    emergencyContactNo: '084875837',
-    pressentAddress: 'Panchagahr',
-    permanentAddress:'panchagarh',
-})
 
+// connect to mongodb
+const creatUser = async () => {
+    const user = new User({
+        id:'123456789',
+        role:"student",
+        password: '23533',
+        name:{
+            firstName:' Md',
+            middleName:'Mamun',
+            lastName:'Hossain'
+        },
+        dataOfBirth:'11/9/2002',
+        gender:'male',
+        email: 'md.mamun.hossain.bj@gmail.com',
+        contactNO: '01888494',
+        emergencyContactNo: '084875837',
+        pressentAddress: 'Panchagahr',
+        permanentAddress:'panchagarh',
+    });
+    await user.save();
+    // console.log(user)
+}
+creatUser();
 });
 
 export default app;
