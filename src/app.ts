@@ -27,7 +27,7 @@ app.get("/", (req: Request, res: Response, next: NextFunction) => {
     password: string;
     name:{
         firstName: string;
-        middleName:string;
+        middleName?:string;
         lastName:string;
     };
     dataOfBirth?:string;
@@ -57,7 +57,25 @@ const userSchema = new Schema<IUser>({
     pressentAddress:{type:String, required:true},
     permanentAddress: {type:String, required:true}
 });
-// creat
+// creat a model
+const User = model<IUser>('User', userSchema);
+const user = new User({
+    id:'123456',
+    role:"student",
+    password: '23533',
+    name:{
+        firstName:' Md',
+        middleName:'Mamun',
+        lastName:'Hossain',
+    },
+    dataOfBirth:'11/9/2002',
+    gender:'male',
+    email: 'md.mamun.hossain.bj@gmail.com',
+    contactNO: '01888494',
+    emergencyContactNo: '084875837',
+    pressentAddress: 'Panchagahr',
+    permanentAddress:'panchagarh',
+})
 
 });
 
